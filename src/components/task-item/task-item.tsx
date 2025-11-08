@@ -21,6 +21,9 @@ export type TaskItemProps = {
     selectedTask: BarTask,
     event?: React.MouseEvent | React.KeyboardEvent
   ) => any;
+  isConnectionMode?: boolean;
+  connectionSourceTaskId?: string;
+  onConnectionPointClick?: (taskId: string, pointType: "source" | "target") => void;
 };
 
 export const TaskItem: React.FC<TaskItemProps> = props => {
@@ -32,12 +35,16 @@ export const TaskItem: React.FC<TaskItemProps> = props => {
     isSelected,
     rtl,
     onEventStart,
+    isConnectionMode,
+    connectionSourceTaskId,
+    onConnectionPointClick,
   } = {
     ...props,
   };
   const textRef = useRef<SVGTextElement>(null);
   const [taskItem, setTaskItem] = useState<JSX.Element>(<div />);
   const [isTextInside, setIsTextInside] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     switch (task.typeInternal) {
@@ -80,6 +87,11 @@ export const TaskItem: React.FC<TaskItemProps> = props => {
     }
   };
 
+  const handleConnectionPointClick = (pointType: "source" | "target", event: React.MouseEvent) => {
+    event.stopPropagation();
+    onConnectionPointClick?.(task.id, pointType);
+  };
+
   return (
     <g
       onKeyDown={e => {
@@ -92,9 +104,11 @@ export const TaskItem: React.FC<TaskItemProps> = props => {
         e.stopPropagation();
       }}
       onMouseEnter={e => {
+        setIsHovered(true);
         onEventStart("mouseenter", task, e);
       }}
       onMouseLeave={e => {
+        setIsHovered(false);
         onEventStart("mouseleave", task, e);
       }}
       onDoubleClick={e => {
@@ -120,6 +134,34 @@ export const TaskItem: React.FC<TaskItemProps> = props => {
       >
         {task.name}
       </text>
+      
+      {/* Right connection point - visible on hover */}
+      {isHovered && (
+        <circle
+          cx={task.x2}
+          cy={task.y + taskHeight * 0.5}
+          r={5}
+          fill="#4CAF50"
+          stroke="#2E7D32"
+          strokeWidth={2}
+          style={{ cursor: "crosshair" }}
+          onClick={e => handleConnectionPointClick("source", e)}
+        />
+      )}
+      
+      {/* Left connection point - visible when in connection mode */}
+      {isConnectionMode && connectionSourceTaskId !== task.id && (
+        <circle
+          cx={task.x1}
+          cy={task.y + taskHeight * 0.5}
+          r={5}
+          fill="#FF9800"
+          stroke="#E65100"
+          strokeWidth={2}
+          style={{ cursor: "pointer" }}
+          onClick={e => handleConnectionPointClick("target", e)}
+        />
+      )}
     </g>
   );
 };

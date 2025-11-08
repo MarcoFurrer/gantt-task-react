@@ -72,6 +72,12 @@ export interface EventOption {
    * Invokes on expander on task list
    */
   onExpanderClick?: (task: Task) => void;
+  /**
+   * Invokes on dependency change. Chart undoes operation if method return false or error.
+   */
+  onDependencyChange?: (
+    task: Task
+  ) => void | boolean | Promise<void> | Promise<boolean>;
 }
 
 export interface DisplayOption {

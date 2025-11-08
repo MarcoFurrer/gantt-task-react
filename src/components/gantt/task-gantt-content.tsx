@@ -55,11 +55,13 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
   onDoubleClick,
   onClick,
   onDelete,
+  onDependencyChange,
 }) => {
   const point = svg?.current?.createSVGPoint();
   const [xStep, setXStep] = useState(0);
   const [initEventX1Delta, setInitEventX1Delta] = useState(0);
   const [isMoving, setIsMoving] = useState(false);
+  const [connectionSourceTaskId, setConnectionSourceTaskId] = useState<string | undefined>(undefined);
 
   // create xStep
   useEffect(() => {
@@ -260,6 +262,22 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
     }
   };
 
+  const handleConnectionPointClick = (taskId: string, pointType: "source" | "target") => {
+    if (pointType === "source") {
+      setConnectionSourceTaskId(taskId);
+    } else if (pointType === "target" && connectionSourceTaskId) {
+      const targetTask = tasks.find(t => t.id === taskId);
+      if (targetTask) {
+        const updatedTask = {
+          ...targetTask,
+          dependencies: [...(targetTask.dependencies || []), connectionSourceTaskId]
+        };
+        onDependencyChange?.(updatedTask);
+      }
+      setConnectionSourceTaskId(undefined);
+    }
+  };
+
   return (
     <g className="content">
       <g className="arrows" fill={arrowColor} stroke={arrowColor}>
@@ -293,6 +311,9 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
               key={task.id}
               isSelected={!!selectedTask && task.id === selectedTask.id}
               rtl={rtl}
+              isConnectionMode={!!connectionSourceTaskId}
+              connectionSourceTaskId={connectionSourceTaskId}
+              onConnectionPointClick={handleConnectionPointClick}
             />
           );
         })}

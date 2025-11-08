@@ -67,6 +67,11 @@ const App = () => {
     console.log("On expander click Id:" + task.id);
   };
 
+  const handleDependencyChange = (task: Task) => {
+    console.log("On dependency change Id:" + task.id, "Dependencies:", task.dependencies);
+    setTasks(tasks.map(t => (t.id === task.id ? task : t)));
+  };
+
   return (
     <div className="Wrapper">
       <ViewSwitcher
@@ -85,6 +90,7 @@ const App = () => {
         onClick={handleClick}
         onSelect={handleSelect}
         onExpanderClick={handleExpanderClick}
+        onDependencyChange={handleDependencyChange}
         listCellWidth={isChecked ? "155px" : ""}
         columnWidth={columnWidth}
       />
@@ -99,6 +105,7 @@ const App = () => {
         onClick={handleClick}
         onSelect={handleSelect}
         onExpanderClick={handleExpanderClick}
+        onDependencyChange={handleDependencyChange}
         listCellWidth={isChecked ? "155px" : ""}
         ganttHeight={300}
         columnWidth={columnWidth}
