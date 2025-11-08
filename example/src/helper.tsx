@@ -11,17 +11,6 @@ export function initTasks() {
       progress: 25,
       type: "project",
       hideChildren: false,
-      displayOrder: 1,
-    },
-    {
-      start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 2),
-      end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 5),
-      name: "Market Research",
-      id: "marketResearch",
-      project: "strategicPlanning",
-      progress: 40,
-      type: "task",
-      displayOrder: 2,
     },
     {
       start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 4),
@@ -31,7 +20,6 @@ export function initTasks() {
       project: "strategicPlanning",
       progress: 20,
       type: "task",
-      displayOrder: 3,
     },
     {
       start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 6),
@@ -41,7 +29,6 @@ export function initTasks() {
       project: "strategicPlanning",
       progress: 10,
       type: "task",
-      displayOrder: 4,
     },
     {
       start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
@@ -51,7 +38,6 @@ export function initTasks() {
       progress: 25,
       type: "project",
       hideChildren: false,
-      displayOrder: 5,
     },
     {
       start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 2),
@@ -61,7 +47,6 @@ export function initTasks() {
       project: "prestudies",
       progress: 40,
       type: "task",
-      displayOrder: 6,
     },
     {
       start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 4),
@@ -71,7 +56,7 @@ export function initTasks() {
       progress: 20,
       type: "project",
       project: "prestudies",
-      displayOrder: 7,
+      hideChildren: false,
     },
     {
       start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 6),
@@ -80,18 +65,26 @@ export function initTasks() {
       id: "resourceAssessment",
       project: "costBenefitAnalysis",
       progress: 10,
-      type: "task",
-      displayOrder: 8,
+      type: "project",
+      hideChildren: true,
     },
     {
       start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 6),
       end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 9),
-      name: "Resource Assessment",
-      id: "resourceAssessment",
+      name: "Further Resource Assessment",
+      id: "furtherResourceAssessment",
       project: "costBenefitAnalysis",
       progress: 10,
       type: "task",
-      displayOrder: 9,
+    },
+    {
+      start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 2),
+      end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 5),
+      name: "Market Research",
+      id: "marketResearch",
+      project: "strategicPlanning",
+      progress: 40,
+      type: "task",
     }
   ];
   return tasks;
